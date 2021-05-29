@@ -21,7 +21,7 @@ let gameOptions = ["rock", "paper", "scissors"];
  */
 function xBeatsy(x, y) {
   let rockWins = ['rock beats scissors'];
-  let paperWins = ['paper beats scissors'];
+  let paperWins = ['paper beats rock'];
   let scissorsWins = ['scissors beat paper'];
   let tie = `tie, both players chose ${x}`;
 
