@@ -133,7 +133,8 @@ function playGame(numTimes) {
 
   for (let i = 0; i < numTimes; i++) {
     roundResult = playRound();
-    console.log(roundResult.outcome[0]);
+    let message = `You ${roundResult.playerWins ? 'win' : 'lose'}! ${roundResult.outcome[0][0].toUpperCase()}${roundResult.outcome[0].slice(1)}!`;
+    console.log(message);
 
     // Increment score using Boolean conversion
     playerScore += Number(roundResult.playerWins);
