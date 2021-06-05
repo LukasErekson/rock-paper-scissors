@@ -98,8 +98,6 @@ function playRound() {
   while (!(gameOptions.includes(playerChoice))) {
     playerChoice = prompt("Please choose either rock, paper, or scissors.").toLowerCase();
   }
-
-  // Use the logic to determine who wins the game
   let result = xBeatsy(playerChoice, computerChoice);
 
   // If it's a tie, redo the round from the beginning.
@@ -124,7 +122,7 @@ function showScore() {
 }
 
 /**
- * Plays a total of numTimes rounds of Rock, Paper, Scissors with a human player
+ * Plays rounds of Rock, Paper, Scissors with a human player
  * against a computer (random) player.
  * @param {Number} numTimes The number of times to play the game. Must be an integer.
  * @returns {Number[]}      The final scores for the human player and the computer.
