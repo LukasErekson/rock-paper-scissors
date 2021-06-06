@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Rock, Paper, Scissors!</title>
   
-    <title>Rock, Paper, Scissors</title>
-    
-    <script type="text/javascript" src="scripts/main-game.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" media="all" href="styles/html5reset-1.6.1.css" />
+    <link rel="stylesheet" media="all" href="styles/main.css" />
 
   </head>
-
   <body>
 
+    <main>
+      <h1 id="title">Choose Rock, Paper, or Scissors!</h1>
+    </main>
+
+    <div id="score-card">
+      <h2 id="score-card-title">Score</h2>
+      
+      <div id="player-score">
+        <h3 id="player-score-num">0</h3>
+        <h4 id="player-name">Player</h4>
+      </div>
+      
+      <div id="computer-score">
+        <h3 id="computer-score-num">0</h3>
+        <h4 id="computer-name">Computer</h3>
+      </div>
+    </div>
+
+    <div id="computer-choice-display">
+      <h2 id="computer-choice-title">Computer Choice</h2>
+      <div id="computer-choice-wrapper" class="game-option">
+        <img src="" id="computer-choice-icon" alt="" style="width:100px; height: auto;" />
+        <span id="computer-choice-text"></span>
+      </div>
+      <span id="result-text">Choose rock, paper, or scissors to begin!</span>
+    </div>
+
+    <div id="player-options">
+      <div id="rock-wrapper" class="game-option">
+        <img src="images/alpine-landscape-rock-rubble-01g-al1.svg" id="rock-icon" alt="Rock" style="width:100px; height: auto;"/>
+        <span class="option-text">Rock</span>
+      </div>
+
+      <div id="paper-wrapper" class="game-option">
+        <img src="images/Anonymous_Paper_1_icon.svg" id="paper-icon" alt="Paper" style="width:100px; height: auto;"/>
+        <span class="option-text">Paper</span>
+      </div>
+
+      <div id="scissors-wrapper" class="game-option">
+        <img src="images/Scissor Stencil.svg" id="scissors-icon" alt="Scissors" style="width:100px; height: auto;"/>
+        <span class="option-text">Scissors</span>
+      </div>
+    
+    </div>
+
+    <script type="text/javascript" src="scripts/main-game.js"></script>
   </body>
+  
 </html>

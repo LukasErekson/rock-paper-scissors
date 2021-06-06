@@ -14,10 +14,10 @@ let gameOptions = ["rock", "paper", "scissors"];
 
 /**
  * Simple logic for a rock, paper, scissors game.
- * @param {String} x            The first option.
- * @param {String} y            The second option.
- * @returns {String}            Result of the match.
- * @returns {Boolean}           Whether x beat y.
+ * @param {String} x  The first option: either rock, paper, or scissors.
+ * @param {String} y  The second option: either rock, paper, or scissors.
+ * @returns {String}  Result of the match.
+ * @returns {Boolean} Whether x beat y.
  */
 function xBeatsy(x, y) {
   let rockWins = ['rock beats scissors'];
@@ -90,24 +90,76 @@ function xBeatsy(x, y) {
  * Play a round of Rock, paper, scissors
  * @returns {String} Whether or not the player won the game or tied.
  */
-function playRound() {
+function playRound(event) {
   let computerChoice = sample(gameOptions);
-  let playerChoice = prompt("What would you like to do?").toLowerCase();
+  showComputerChoice(computerChoice);
 
-  // Only allow one of the game options.
-  while (!(gameOptions.includes(playerChoice))) {
-    playerChoice = prompt("Please choose either rock, paper, or scissors.").toLowerCase();
-  }
+  let playerChoice = chooseOption(event);
+  console.log(playerChoice);
+
   let result = xBeatsy(playerChoice, computerChoice);
+
+  let resultText = document.getElementById('result-text');
 
   // If it's a tie, redo the round from the beginning.
   if (result.outcome.includes('tie')) {
-    console.log('It was a tie! Play again.');
-    return playRound();
+    resultText.innerText = `It was a tie; you both chose ${playerChoice}!`;
+    showScore(result);
+    return;
   }
+
+  resultText.innerText = `You ${result.playerWins ? 'win' : 'lose'}! ${result.outcome[0][0].toUpperCase()}${result.outcome[0].slice(1)}!`;
+
+  // Increment score using Boolean conversion
+  playerScore += Number(result.playerWins);
+  computerScore += Number(!result.playerWins);
+  showScore(result);
 
   return result;
 
+}
+
+function showComputerChoice(computerChoice) {
+  let computerChoiceImg = document.getElementById("computer-choice-icon");
+  let computerChoiceText = document.getElementById("computer-choice-text");
+  computerChoiceText.innerText = computerChoice[0].toUpperCase() + computerChoice.slice(1);
+  computerChoiceImg.setAttribute('alt', computerChoice);
+  
+  // Set up the smooth animation in of the computer choice
+  // This lets the user know that a new game has been played
+  // even when the computer chooses the same option.
+  let computerChoiceWrapper = document.getElementById('computer-choice-wrapper');
+  computerChoiceWrapper.classList.add('animate-in');
+  setTimeout(() => {computerChoiceWrapper.classList.remove('animate-in');}, 250);
+
+  let imgSrc = "";
+  switch (computerChoice) {
+    case "rock":
+      imgSrc = 'images/alpine-landscape-rock-rubble-01g-al1.svg';
+      break;
+    case "paper":
+      imgSrc = 'images/Anonymous_Paper_1_icon.svg';
+      break;
+    case "scissors":
+      imgSrc = 'images/Scissor Stencil.svg';
+      break;
+  }
+  computerChoiceImg.setAttribute('src', imgSrc);
+}
+
+/**
+ * Assigns the playerOption variable after a selection event
+ * @param {Event} event 
+ */
+function chooseOption(event) {
+  let pathArray = Array.from(event.path);
+  // console.log(pathArray[0].getAttribute('id'));
+  let optionID = pathArray[0].getAttribute('id');
+  optionID = optionID.slice(0, optionID.indexOf('-'));
+  if (optionID !== 'player') {
+    return optionID;
+  }
+  return null;
 }
 
 let playerScore = 0;
@@ -115,42 +167,26 @@ let computerScore = 0;
 
 /**
  * Display the current score of the game.
+ * @param {Object} result Object containing the results of the game.
  */
-function showScore() {
-  console.log(`Player Score: ${playerScore}`);
-  console.log(`Computer Score: ${computerScore}`);
-}
-
-/**
- * Plays rounds of Rock, Paper, Scissors with a human player
- * against a computer (random) player.
- * @param {Number} numTimes The number of times to play the game. Must be an integer.
- * @returns {Number[]}      The final scores for the human player and the computer.
- */
-function playGame(numTimes) {
-
-  for (let i = 0; i < numTimes; i++) {
-    roundResult = playRound();
-    let message = `You ${roundResult.playerWins ? 'win' : 'lose'}! ${roundResult.outcome[0][0].toUpperCase()}${roundResult.outcome[0].slice(1)}!`;
-    console.log(message);
-
-    // Increment score using Boolean conversion
-    playerScore += Number(roundResult.playerWins);
-    computerScore += Number(!roundResult.playerWins);
-    showScore();
-    
+function showScore(result) {
+  const playerScoreNum = document.getElementById("player-score-num");
+  const computerScoreNum = document.getElementById("computer-score-num");
+  playerScoreNum.innerText = playerScore;
+  computerScoreNum.innerText = computerScore;
+  if (result.playerWins) {
+    playerScoreNum.classList.add('animate-update');
+    setTimeout(() => {playerScoreNum.classList.remove('animate-update');}, 500);
   }
-
-  if (playerScore > computerScore) {
-    console.log("Congratulations! You win!");
-  }
-
-  else if (playerScore < computerScore) {
-    console.log("The Computer wins! Better luck next time.");
-  }
-
   else {
-    console.log("It was a draw!");
+    computerScoreNum.classList.add('animate-update');
+    if (result.outcome.includes('tie')) {
+      playerScoreNum.classList.add('animate-update');
+      setTimeout(() => {playerScoreNum.classList.remove('animate-update');}, 500);
+    }
+    setTimeout(() => {computerScoreNum.classList.remove('animate-update');}, 500);
   }
-
 }
+
+let playerOptions = document.getElementById("player-options");
+playerOptions.addEventListener('click', playRound);
