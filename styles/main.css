@@ -16,15 +16,15 @@ main {
 }
 
 h1 {
-  font-size: 25pt;
+  font-size: 23pt;
 }
 
 h2 {
-  font-size: 20pt;
+  font-size: 18pt;
 }
 
 h3 {
-  font-size: 18pt;
+  font-size: 15pt;
 }
 
 h4 {
@@ -39,7 +39,6 @@ h4 {
   display: grid;
   grid-template-areas: "score-title score-title"
                        "player-score computer-score";
-  /* grid-template-columns: 1fr 1fr; */
   grid-template-rows: .5fr 1fr;
   grid-template-columns: 1fr 1fr;
   text-align: center;
@@ -51,7 +50,6 @@ h4 {
 #score-card-title {
   grid-area: score-title;
   border-bottom: 1px solid black;
-  /* padding: 2px; */
 }
 
 #player-score {
@@ -81,7 +79,6 @@ h4 {
 }
 
 #computer-choice-wrapper {
-  /* border: 1px solid black; */
   width: 497.5px;
   height: 250px;
   margin-left: auto;
@@ -94,7 +91,6 @@ h4 {
 }
 
 .game-option {
-  /* border: 1px solid black; */
   max-width: 150px;
   min-height: 100px;
   max-height: 150px;
@@ -162,7 +158,6 @@ h4 {
 
 #paper-wrapper {
   grid-area: paper;
-  /* margin-top: 25px; */
 }
 
 #scissors-wrapper {
