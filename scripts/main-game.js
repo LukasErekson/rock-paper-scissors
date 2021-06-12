@@ -1,5 +1,7 @@
 "using strict";
 
+const NUM_GAMES_TO_WIN= 5;
+
 /**
  * Sample randomly from an Array object.
  * @param {Array} arr The array to get a random sample from.
@@ -10,7 +12,7 @@ function sample(arr) {
 }
 
 // Create the game options array.
-let gameOptions = ["rock", "paper", "scissors"];
+const GAME_OPTIONS = ["rock", "paper", "scissors"];
 
 /**
  * Simple logic for a rock, paper, scissors game.
@@ -91,7 +93,7 @@ function xBeatsy(x, y) {
  * @returns {String} Whether or not the player won the game or tied.
  */
 function playRound(event) {
-  let computerChoice = sample(gameOptions);
+  let computerChoice = sample(GAME_OPTIONS);
   showComputerChoice(computerChoice);
 
   let playerChoice = chooseOption(event);
@@ -109,7 +111,6 @@ function playRound(event) {
   }
 
   resultText.innerText = `You ${result.playerWins ? 'win' : 'lose'}! ${result.outcome[0][0].toUpperCase()}${result.outcome[0].slice(1)}!`;
-
   // Increment score using Boolean conversion
   playerScore += Number(result.playerWins);
   computerScore += Number(!result.playerWins);
@@ -174,6 +175,7 @@ function showScore(result) {
   const computerScoreNum = document.getElementById("computer-score-num");
   playerScoreNum.innerText = playerScore;
   computerScoreNum.innerText = computerScore;
+
   if (result.playerWins) {
     playerScoreNum.classList.add('animate-update');
     setTimeout(() => {playerScoreNum.classList.remove('animate-update');}, 500);
@@ -186,6 +188,51 @@ function showScore(result) {
     }
     setTimeout(() => {computerScoreNum.classList.remove('animate-update');}, 500);
   }
+
+  if (gameOver()) {
+    let resultText = document.getElementById('result-text');
+    resultText.innerText += "\nSelect rock, paper, or scissors to begin a new game!";
+    playerOptions.addEventListener('click', newGame);
+  }
+
+}
+
+/**
+ * Checks to see if the game is over 
+ * (one player has NUM_GAMES_TO_WIN points).
+ * @returns {Boolean} Whether or not the game is over.
+ */
+function gameOver() {
+  let playerWon = playerScore === NUM_GAMES_TO_WIN;
+  let computerWon = computerScore === NUM_GAMES_TO_WIN;
+  if (playerWon || computerWon) {
+    playerOptions.removeEventListener('click', playRound);
+    let resultText = document.getElementById('result-text');
+    
+    if (playerWon) {
+      resultText.innerText = "Congratulations! You win the game!";
+    }
+    else {
+      resultText.innerText = "The computer wins! Better luck next time!";
+    }
+
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Start a new game by setting the scores to 0 and 
+ * reseting event listeners.
+ * @param {Event} event The event listener from which to
+ *                      extract the player's choice.
+ */
+function newGame(event) {
+  playerScore = 0;
+  computerScore = 0;
+  playerOptions.addEventListener('click', playRound);
+  playerOptions.removeEventListener('click', newGame);
+  playRound(event);
 }
 
 let playerOptions = document.getElementById("player-options");
