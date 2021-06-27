@@ -2,6 +2,9 @@
 
 const NUM_GAMES_TO_WIN= 5;
 
+// Create the game options array.
+const GAME_OPTIONS = ["rock", "paper", "scissors"];
+
 /**
  * Sample randomly from an Array object.
  * @param {Array} arr The array to get a random sample from.
@@ -10,9 +13,6 @@ const NUM_GAMES_TO_WIN= 5;
 function sample(arr) {
   return arr[Math.random() * arr.length | 0];
 }
-
-// Create the game options array.
-const GAME_OPTIONS = ["rock", "paper", "scissors"];
 
 /**
  * Simple logic for a rock, paper, scissors game.
@@ -89,6 +89,17 @@ function xBeatsy(x, y) {
 }
 
 /**
+ * Assigns the playerOption variable after a selection event
+ * @param {Event} event 
+ */
+function chooseOption(event) {
+  let pathArray = event.composedPath();
+  let optionID = pathArray[0].getAttribute('id');
+  optionID = optionID.slice(0, optionID.indexOf('-'));
+  return optionID;
+}
+
+/**
  * Play a round of Rock, paper, scissors
  * @returns {String} Whether or not the player won the game or tied.
  */
@@ -146,21 +157,6 @@ function showComputerChoice(computerChoice) {
       break;
   }
   computerChoiceImg.setAttribute('src', imgSrc);
-}
-
-/**
- * Assigns the playerOption variable after a selection event
- * @param {Event} event 
- */
-function chooseOption(event) {
-  let pathArray = Array.from(event.path);
-  // console.log(pathArray[0].getAttribute('id'));
-  let optionID = pathArray[0].getAttribute('id');
-  optionID = optionID.slice(0, optionID.indexOf('-'));
-  if (optionID !== 'player') {
-    return optionID;
-  }
-  return null;
 }
 
 let playerScore = 0;
